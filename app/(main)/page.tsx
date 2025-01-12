@@ -39,8 +39,8 @@ const Landing = () => {
             <div id="home" className="landing-wrapper overflow-hidden">
                 <div className="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static">
                     <Link href="/" className="flex align-items-center">
-                        <img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Sakai Logo" height="50" className="mr-0 lg:mr-2" />
-                        <span className="text-900 font-medium text-2xl line-height-3 mr-8">SAKAI</span>
+                        {/*<img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Sakai Logo" height="50" className="mr-0 lg:mr-2" />*/}
+                        <span className="text-900 font-medium text-2xl line-height-3 mr-8">TMAKER</span>
                     </Link>
                     <StyleClass nodeRef={menuRef as NodeRef} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick>
                         <i ref={menuRef} className="pi pi-bars text-4xl cursor-pointer block lg:hidden text-700"></i>
@@ -49,13 +49,13 @@ const Landing = () => {
                         <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer">
                             <li>
                                 <a href="#home" onClick={toggleMenuItemClick} className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Home</span>
+                                    <span>Главная</span>
                                     <Ripple />
                                 </a>
                             </li>
                             <li>
                                 <a href="#features" onClick={toggleMenuItemClick} className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Features</span>
+                                    <span>Преимущества</span>
                                     <Ripple />
                                 </a>
                             </li>
@@ -102,7 +102,7 @@ const Landing = () => {
                 <div id="features" className="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
                     <div className="grid justify-content-center">
                         <div className="col-12 text-center mt-8 mb-4">
-                            <h2 className="text-900 font-normal mb-2">Marvelous Features</h2>
+                            <h2 className="text-900 font-normal mb-2">Наши преимущества</h2>
                             <span className="text-600 text-2xl">Placerat in egestas erat...</span>
                         </div>
 
@@ -415,7 +415,7 @@ const Landing = () => {
 
                 <div id="pricing" className="py-4 px-4 lg:px-8 my-2 md:my-4">
                     <div className="text-center">
-                        <h2 className="text-900 font-normal mb-2">Matchless Pricing</h2>
+                        <h2 className="text-900 font-normal mb-2">Наши цены</h2>
                         <span className="text-600 text-2xl">Amet consectetur adipiscing elit...</span>
                     </div>
 
@@ -519,17 +519,17 @@ const Landing = () => {
                     <div className="grid justify-content-between">
                         <div className="col-12 md:col-2" style={{ marginTop: '-1.5rem' }}>
                             <Link href="/" className="flex flex-wrap align-items-center justify-content-center md:justify-content-start md:mb-0 mb-3 cursor-pointer">
-                                <img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="footer sections" width="50" height="50" className="mr-2" />
-                                <span className="font-medium text-3xl text-900">SAKAI</span>
+                                {/*<img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="footer sections" width="50" height="50" className="mr-2" />*/}
+                                <span className="font-medium text-3xl text-900">TMAKER</span>
                             </Link>
                         </div>
 
                         <div className="col-12 md:col-10 lg:col-7">
                             <div className="grid text-center md:text-left">
                                 <div className="col-12 md:col-3">
-                                    <h4 className="font-medium text-2xl line-height-3 mb-3 text-900">Company</h4>
-                                    <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">About Us</a>
-                                    <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">News</a>
+                                    <h4 className="font-medium text-2xl line-height-3 mb-3 text-900">Компания</h4>
+                                    <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">О нас</a>
+                                    <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">Новости</a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">Investor Relations</a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">Careers</a>
                                     <a className="line-height-3 text-xl block cursor-pointer text-700">Media Kit</a>
