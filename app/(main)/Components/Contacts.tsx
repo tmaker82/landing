@@ -9,9 +9,8 @@ const Faq = () => {
 
     return (
         <>
-
             <div id="contacts" className="flex align-items-center justify-content-center">
-                <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+                <div className="surface-card p-4 shadow-2 border-round w-full lg:w-12">
                     <div className="text-center mb-5">
                         <img src="/demo/images/blocks/logos/hyper.svg" alt="hyper" height={50} className="mb-3" />
                         <div className="text-900 text-3xl font-medium mb-3">Welcome Back</div>
@@ -38,7 +37,6 @@ const Faq = () => {
                     </div>
                 </div>
             </div>
-
         </>
 
     )
