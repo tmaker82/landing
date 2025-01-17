@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button} from "primereact/button";
+import {Ripple} from "primereact/ripple";
 
 const Hero = () => {
+    const [isHidden, setIsHidden] = useState(false);
+    const toggleMenuItemClick = () => {
+        setIsHidden((prevState) => !prevState);
+    };
 
     return (
         <>
@@ -19,8 +24,13 @@ const Hero = () => {
                     </h1>
                     <p className="font-normal text-2xl line-height-3 md:mt-3 text-gray-700">Sed blandit libero
                         volutpat sed cras. Fames ac turpis egestas integer. Placerat in egestas erat... </p>
-                    <Button type="button" label="Get Started" rounded
-                            className="text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
+                    <a href="#contacts" onClick={toggleMenuItemClick}
+                       className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                        <Button type="button" label="Get Started" rounded
+                                className="text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
+                        <Ripple/>
+                    </a>
+
                 </div>
                 <div className="flex justify-content-center md:justify-content-end">
                     <img src="/demo/images/landing/screen-1.png" alt="Hero Image" className="w-9 md:w-auto"/>
