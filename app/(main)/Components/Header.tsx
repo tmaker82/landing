@@ -15,7 +15,7 @@ import {StyleClass} from "primereact/styleclass";
 import {classNames} from "primereact/utils";
 import {Ripple} from "primereact/ripple";
 import {Button} from "primereact/button";
-const menuRef = useRef<HTMLElement>(null);
+const menuRef = useRef<HTMLElement | null>(null);
 
 const Header = () => {
     const [isHidden, setIsHidden] = useState(false);
