@@ -19,6 +19,7 @@ import Footer from "@/app/(main)/Components/Footer";
 import Slogan from "@/app/(main)/Components/Slogan1";
 import MiniBanner from "@/app/(main)/Components/MiniBanner";
 import Contacts from "@/app/(main)/Components/Contacts";
+import MediaDemo from "@/app/(main)/uikit/media/page";
 
 
 const Landing = () => {
@@ -102,6 +103,12 @@ const Landing = () => {
                                     onClick={() => setLoginVisible(true)}></Button>
                             <Button label="Register" rounded
                                     className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
+                            <Link href="/documentation">
+                                <button type="button" className="p-link layout-topbar-button">
+                                    <i className="pi pi-cog"></i>
+                                    <span>Settings</span>
+                                </button>
+                            </Link>
                             <Dialog
                                 visible={loginVisible}
                                 modal
@@ -185,10 +192,10 @@ const Landing = () => {
                 <Advantage></Advantage>
                 <Faq></Faq>
                 <Banner></Banner>
+                <MediaDemo></MediaDemo>
                 <Price></Price>
                 <Slogan></Slogan>
                 <Contacts></Contacts>
-
 
                 <Footer></Footer>
             </div>
