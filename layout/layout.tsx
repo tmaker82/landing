@@ -112,7 +112,7 @@ const Layout = ({ children }: ChildContainerProps) => {
         unbindProfileMenuOutsideClickListener();
     });
 
-/*    const containerClass = classNames('layout-wrapper', {
+    const containerClass = classNames('layout-wrapper', {
         'layout-overlay': layoutConfig.menuMode === 'overlay',
         'layout-static': layoutConfig.menuMode === 'static',
         'layout-static-inactive': layoutState.staticMenuDesktopInactive && layoutConfig.menuMode === 'static',
@@ -120,21 +120,21 @@ const Layout = ({ children }: ChildContainerProps) => {
         'layout-mobile-active': layoutState.staticMenuMobileActive,
         'p-input-filled': layoutConfig.inputStyle === 'filled',
         'p-ripple-disabled': !layoutConfig.ripple
-    });*/
+    });
 
     return (
         <React.Fragment>
-            <div>
-               {/* <AppTopbar ref={topbarRef} />*/}
-                {/*<div ref={sidebarRef} className="layout-sidebar">
+            <div className={containerClass}>
+                <AppTopbar ref={topbarRef} />
+                <div ref={sidebarRef} className="layout-sidebar">
                     <AppSidebar />
-                </div>*/}
-                <div>
+                </div>
+                <div className="layout-main-container">
                     <div className="layout-main">{children}</div>
                     <AppFooter />
                 </div>
-                {/*<AppConfig />*/}
-                {/*<div className="layout-mask"></div>*/}
+                <AppConfig />
+                <div className="layout-mask"></div>
             </div>
         </React.Fragment>
     );

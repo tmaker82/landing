@@ -1,206 +1,393 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import {Button} from 'primereact/button';
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Dialog} from 'primereact/dialog';
-import {ProductService} from '../../demo/service/ProductService';
-import {LayoutContext} from '../../layout/context/layoutcontext';
+import { Button } from 'primereact/button';
+import { Chart } from 'primereact/chart';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Menu } from 'primereact/menu';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { ProductService } from '../../demo/service/ProductService';
+import { LayoutContext } from '../../layout/context/layoutcontext';
 import Link from 'next/link';
-import {NodeRef} from '@/types';
-import {StyleClass} from "primereact/styleclass";
-import {classNames} from "primereact/utils";
-import {Ripple} from "primereact/ripple";
-import Hero from "@/app/(main)/Components/Hero";
-import Advantage from "@/app/(main)/Components/Advantage";
-import Faq from "@/app/(main)/Components/Faq";
-import Banner from "@/app/(main)/Components/Banner";
-import Price from "@/app/(main)/Components/Price";
-import Footer from "@/app/(main)/Components/Footer";
-import Slogan from "@/app/(main)/Components/Slogan1";
-import MiniBanner from "@/app/(main)/Components/MiniBanner";
-import Contacts from "@/app/(main)/Components/Contacts";
-import MediaDemo from "@/app/(main)/uikit/media/page";
+import { Demo } from '@/types';
+import { ChartData, ChartOptions } from 'chart.js';
 
+const lineData: ChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            backgroundColor: '#2f4860',
+            borderColor: '#2f4860',
+            tension: 0.4
+        },
+        {
+            label: 'Second Dataset',
+            data: [28, 48, 40, 19, 86, 27, 90],
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e',
+            tension: 0.4
+        }
+    ]
+};
 
-const Landing = () => {
-    const [isHidden, setIsHidden] = useState(false);
-    const {layoutConfig} = useContext(LayoutContext);
-    const menuRef = useRef<HTMLElement | null>(null);
-    const [loginVisible, setLoginVisible] = useState(false);
+const Dashboard = () => {
+    const [products, setProducts] = useState<Demo.Product[]>([]);
+    const menu1 = useRef<Menu>(null);
+    const menu2 = useRef<Menu>(null);
+    const [lineOptions, setLineOptions] = useState<ChartOptions>({});
+    const { layoutConfig } = useContext(LayoutContext);
 
-    const toggleMenuItemClick = () => {
-        setIsHidden((prevState) => !prevState);
+    const applyLightTheme = () => {
+        const lineOptions: ChartOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#495057'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#495057'
+                    },
+                    grid: {
+                        color: '#ebedef'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#495057'
+                    },
+                    grid: {
+                        color: '#ebedef'
+                    }
+                }
+            }
+        };
+
+        setLineOptions(lineOptions);
+    };
+
+    const applyDarkTheme = () => {
+        const lineOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#ebedef'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ebedef'
+                    },
+                    grid: {
+                        color: 'rgba(160, 167, 181, .3)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ebedef'
+                    },
+                    grid: {
+                        color: 'rgba(160, 167, 181, .3)'
+                    }
+                }
+            }
+        };
+
+        setLineOptions(lineOptions);
     };
 
     useEffect(() => {
-
+        ProductService.getProductsSmall().then((data) => setProducts(data));
     }, []);
 
     useEffect(() => {
-    }, []);
+        if (layoutConfig.colorScheme === 'light') {
+            applyLightTheme();
+        } else {
+            applyDarkTheme();
+        }
+    }, [layoutConfig.colorScheme]);
 
+    const formatCurrency = (value: number) => {
+        return value?.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        });
+    };
 
     return (
-        <div className="surface-0 flex justify-content-center">
-            <div id="home" className="landing-wrapper overflow-hidden">
-                {/*<Header></Header>*/}
-                <MiniBanner></MiniBanner>
-
-                <div
-                    className="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static">
-                    <Link href="/" className="flex align-items-center">
-                        {/*<img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Sakai Logo" height="50" className="mr-0 lg:mr-2" />*/}
-                        <span className="text-900 font-medium text-2xl line-height-3 mr-8">TMAKER</span>
-                    </Link>
-                    <StyleClass nodeRef={menuRef as NodeRef} selector="@next" enterClassName="hidden"
-                                leaveToClassName="hidden" hideOnOutsideClick>
-                        <i ref={menuRef} className="pi pi-bars text-4xl cursor-pointer block lg:hidden text-700"></i>
-                    </StyleClass>
-                    <div
-                        className={classNames('align-items-center surface-0 flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full left-0 px-6 lg:px-0 z-2', {hidden: isHidden})}
-                        style={{top: '100%'}}>
-                        <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer">
-                            <li>
-                                <a href="#home" onClick={toggleMenuItemClick}
-                                   className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Главная</span>
-                                    <Ripple/>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#features" onClick={toggleMenuItemClick}
-                                   className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Преимущества</span>
-                                    <Ripple/>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#faq" onClick={toggleMenuItemClick}
-                                   className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Вопросы</span>
-                                    <Ripple/>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#highlights" onClick={toggleMenuItemClick}
-                                   className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Highlights</span>
-                                    <Ripple/>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#pricing" onClick={toggleMenuItemClick}
-                                   className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                    <span>Pricing</span>
-                                    <Ripple/>
-                                </a>
-                            </li>
-                        </ul>
-                        <div
-                            className="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
-                            <Button label="Login" icon="pi pi-user" text rounded
-                                    className="border-none font-light line-height-2 text-blue-500"
-                                    onClick={() => setLoginVisible(true)}></Button>
-                            <Button label="Register" rounded
-                                    className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
-                            <Link href="/documentation">
-                                <button type="button" className="p-link layout-topbar-button">
-                                    <i className="pi pi-cog"></i>
-                                    <span>Settings</span>
-                                </button>
-                            </Link>
-                            <Dialog
-                                visible={loginVisible}
-                                modal
-                                onHide={() => {
-                                    if (!loginVisible) return;
-                                    setLoginVisible(false);
-                                }}
-                                content={({hide}) => (
-                                    <div className="flex flex-column px-8 py-5 gap-4" style={{
-                                        borderRadius: '12px',
-                                        backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))'
-                                    }}>
-                                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg" className="block mx-auto">
-                                            <g mask="url(#mask0_2642_713)">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M31.5357 13.0197L29.2036 17.0218L31.531 21.0161C32.3802 22.4733 32.3802 24.2131 31.5311 25.6702C30.682 27.1274 29.1612 27.9973 27.463 27.9973H22.8081L20.6555 31.6915C19.7975 33.164 18.2608 34.0431 16.5447 34.0431C14.8286 34.0431 13.2918 33.164 12.4337 31.6915L10.2811 27.9973H5.617C3.93113 27.9973 2.42136 27.1337 1.57841 25.6871C0.735451 24.2405 0.735451 22.5131 1.57841 21.0666L3.91045 17.0644L1.58298 13.0702C0.733895 11.613 0.733895 9.87311 1.58298 8.41596C2.43207 6.95878 3.95286 6.08884 5.65104 6.08884H10.306L12.4585 2.39474C13.3165 0.922318 14.8535 0.0430908 16.5695 0.0430908C18.2856 0.0430908 19.8223 0.922227 20.6803 2.39474L22.8329 6.08884H27.4971C29.183 6.08884 30.6927 6.95252 31.5357 8.3991C32.3787 9.84573 32.3787 11.573 31.5357 13.0197ZM16.5695 1.06124C15.225 1.0612 14.0208 1.74999 13.3486 2.90374L11.4927 6.08873H21.6463L19.7904 2.90374C19.1182 1.74999 17.914 1.06124 16.5695 1.06124ZM22.7105 26.1286L22.6607 26.2141L22.6534 26.2266L22.5337 26.432L21.8976 27.5237L21.7881 27.7117L20.4662 29.9803L20.0676 30.6643L19.7869 31.146L19.7763 31.1484L19.77 31.1592C19.0978 32.313 17.8714 32.6453 16.5269 32.6453C15.1843 32.6453 14.004 32.3149 13.3312 31.1641L13.31 31.1588L12.6277 29.9878L12.4567 29.6945L5.09715 17.0644L6.43206 14.7736L6.43225 14.7744L8.78685 10.7356L8.7852 10.7353L9.05248 10.2767L9.05421 10.277L10.9022 7.10709L22.2401 7.10314L28.017 17.0219L22.7105 26.1286ZM30.6411 25.1613C29.9777 26.2996 28.7896 26.9792 27.4629 26.9792H23.4014L28.6101 18.0401L30.641 21.5253C31.3043 22.6636 31.3043 24.0229 30.6411 25.1613ZM2.46839 25.178C3.1256 26.3058 4.30263 26.9791 5.617 26.9791H9.6878L4.50379 18.0826L2.46839 21.5756C1.81123 22.7035 1.81123 24.0502 2.46839 25.178ZM2.47303 12.5611C1.80969 11.4227 1.80969 10.0634 2.47303 8.92507C3.13632 7.78669 4.32437 7.10706 5.65105 7.10706H9.71266L4.50381 16.0462L2.47303 12.5611ZM27.497 7.10706C28.8114 7.10706 29.9885 7.78039 30.6456 8.90826C31.3028 10.036 31.3028 11.3827 30.6456 12.5106L28.6102 16.0036L23.4262 7.10706H27.497Z"
-                                                    fill="white"
-                                                />
-                                            </g>
-                                            <path
-                                                d="M22.0969 18.6465L20.3461 18.2616L21.7078 20.1862V26.1522L26.0214 22.3031L26.3764 15.7598L24.2367 16.5296L22.0969 18.6465Z"
-                                                fill="white"/>
-                                            <path
-                                                d="M11.2035 18.6465L12.9543 18.2616L11.5926 20.1862V26.1522L7.27906 22.3031L6.92397 15.7598L9.06376 16.5296L11.2035 18.6465Z"
-                                                fill="white"/>
-                                            <path fillRule="evenodd" clipRule="evenodd"
-                                                  d="M12.1761 20.5713L13.7323 18.2618L14.7049 18.8392H18.5955L19.5681 18.2618L21.1243 20.5713V29.2316L19.3056 32.6659H13.6397L12.1761 29.2316V20.5713Z"
-                                                  fill="white"/>
-                                            <path d="M21.7079 29.8089L24.2367 27.3071V24.8052L21.7079 26.9221V29.8089Z"
-                                                  fill="white"/>
-                                            <path d="M11.5927 29.8089L9.06387 27.3071V24.8052L11.5927 26.9221V29.8089Z"
-                                                  fill="white"/>
-                                            <path fillRule="evenodd" clipRule="evenodd"
-                                                  d="M16.2613 7.09967H14.1215L12.5652 10.7563L15.0941 18.0694H18.401L20.7353 10.7563L19.1791 7.09967H17.0394V18.0694H16.2613V7.09967Z"
-                                                  fill="white"/>
-                                            <path
-                                                d="M15.0942 18.0694L6.7296 14.9901L5.56244 10.1788L12.7599 10.7562L15.2887 18.0694H15.0942Z"
-                                                fill="white"/>
-                                            <path
-                                                d="M18.4011 18.0694L26.7658 14.9901L27.9329 10.1788L20.5409 10.7562L18.2066 18.0694H18.4011Z"
-                                                fill="white"/>
-                                            <path
-                                                d="M21.1245 10.1789L24.8545 9.794L22.4862 7.09967H19.7628L21.1245 10.1789Z"
-                                                fill="white"/>
-                                            <path
-                                                d="M12.1762 10.1789L8.4462 9.794L10.8145 7.09967H13.5378L12.1762 10.1789Z"
-                                                fill="white"/>
-                                        </svg>
-                                        <div className="inline-flex flex-column gap-2">
-                                            <label htmlFor="username" className="text-primary-50 font-semibold">
-                                                Username
-                                            </label>
-                                            <InputText id="username" label="Username"
-                                                       className="bg-white-alpha-20 border-none p-3 text-primary-50"></InputText>
-                                        </div>
-
-                                        <div className="inline-flex flex-column gap-2">
-                                            <label htmlFor="username" className="text-primary-50 font-semibold">
-                                                Username
-                                            </label>
-                                            <InputText id="password" label="Password"
-                                                       className="bg-white-alpha-20 border-none p-3 text-primary-50"
-                                                       type="password"></InputText>
-                                        </div>
-                                        <div className="flex align-items-center gap-2">
-                                            <Button label="Sign-In" onClick={(e) => hide(e)} text
-                                                    className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
-                                            <Button label="Cancel" onClick={(e) => hide(e)} text
-                                                    className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
-                                        </div>
-                                    </div>
-                                )}
-                            ></Dialog>
+        <div className="grid">
+            <div className="col-12 lg:col-6 xl:col-3">
+                <div className="card mb-0">
+                    <div className="flex justify-content-between mb-3">
+                        <div>
+                            <span className="block text-500 font-medium mb-3">Orders</span>
+                            <div className="text-900 font-medium text-xl">152</div>
+                        </div>
+                        <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                         </div>
                     </div>
+                    <span className="text-green-500 font-medium">24 new </span>
+                    <span className="text-500">since last visit</span>
                 </div>
-                <Hero></Hero>
-                <Advantage></Advantage>
-                <Faq></Faq>
-                <Banner></Banner>
-                <MediaDemo></MediaDemo>
-                <Price></Price>
-                <Slogan></Slogan>
-                <Contacts></Contacts>
+            </div>
+            <div className="col-12 lg:col-6 xl:col-3">
+                <div className="card mb-0">
+                    <div className="flex justify-content-between mb-3">
+                        <div>
+                            <span className="block text-500 font-medium mb-3">Revenue</span>
+                            <div className="text-900 font-medium text-xl">$2.100</div>
+                        </div>
+                        <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <i className="pi pi-map-marker text-orange-500 text-xl" />
+                        </div>
+                    </div>
+                    <span className="text-green-500 font-medium">%52+ </span>
+                    <span className="text-500">since last week</span>
+                </div>
+            </div>
+            <div className="col-12 lg:col-6 xl:col-3">
+                <div className="card mb-0">
+                    <div className="flex justify-content-between mb-3">
+                        <div>
+                            <span className="block text-500 font-medium mb-3">Customers</span>
+                            <div className="text-900 font-medium text-xl">28441</div>
+                        </div>
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <i className="pi pi-inbox text-cyan-500 text-xl" />
+                        </div>
+                    </div>
+                    <span className="text-green-500 font-medium">520 </span>
+                    <span className="text-500">newly registered</span>
+                </div>
+            </div>
+            <div className="col-12 lg:col-6 xl:col-3">
+                <div className="card mb-0">
+                    <div className="flex justify-content-between mb-3">
+                        <div>
+                            <span className="block text-500 font-medium mb-3">Comments</span>
+                            <div className="text-900 font-medium text-xl">152 Unread</div>
+                        </div>
+                        <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <i className="pi pi-comment text-purple-500 text-xl" />
+                        </div>
+                    </div>
+                    <span className="text-green-500 font-medium">85 </span>
+                    <span className="text-500">responded</span>
+                </div>
+            </div>
 
-                <Footer></Footer>
+            <div className="col-12 xl:col-6">
+                <div className="card">
+                    <h5>Recent Sales</h5>
+                    <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
+                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
+                        <Column field="name" header="Name" sortable style={{ width: '35%' }} />
+                        <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
+                        <Column
+                            header="View"
+                            style={{ width: '15%' }}
+                            body={() => (
+                                <>
+                                    <Button icon="pi pi-search" text />
+                                </>
+                            )}
+                        />
+                    </DataTable>
+                </div>
+                <div className="card">
+                    <div className="flex justify-content-between align-items-center mb-5">
+                        <h5>Best Selling Products</h5>
+                        <div>
+                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu1.current?.toggle(event)} />
+                            <Menu
+                                ref={menu1}
+                                popup
+                                model={[
+                                    { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+                                    { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+                                ]}
+                            />
+                        </div>
+                    </div>
+                    <ul className="list-none p-0 m-0">
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Space T-Shirt</span>
+                                <div className="mt-1 text-600">Clothing</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-orange-500 h-full" style={{ width: '50%' }} />
+                                </div>
+                                <span className="text-orange-500 ml-3 font-medium">%50</span>
+                            </div>
+                        </li>
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Portal Sticker</span>
+                                <div className="mt-1 text-600">Accessories</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-cyan-500 h-full" style={{ width: '16%' }} />
+                                </div>
+                                <span className="text-cyan-500 ml-3 font-medium">%16</span>
+                            </div>
+                        </li>
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Supernova Sticker</span>
+                                <div className="mt-1 text-600">Accessories</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-pink-500 h-full" style={{ width: '67%' }} />
+                                </div>
+                                <span className="text-pink-500 ml-3 font-medium">%67</span>
+                            </div>
+                        </li>
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Wonders Notebook</span>
+                                <div className="mt-1 text-600">Office</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-green-500 h-full" style={{ width: '35%' }} />
+                                </div>
+                                <span className="text-green-500 ml-3 font-medium">%35</span>
+                            </div>
+                        </li>
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mat Black Case</span>
+                                <div className="mt-1 text-600">Accessories</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-purple-500 h-full" style={{ width: '75%' }} />
+                                </div>
+                                <span className="text-purple-500 ml-3 font-medium">%75</span>
+                            </div>
+                        </li>
+                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                            <div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Robots T-Shirt</span>
+                                <div className="mt-1 text-600">Clothing</div>
+                            </div>
+                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                    <div className="bg-teal-500 h-full" style={{ width: '40%' }} />
+                                </div>
+                                <span className="text-teal-500 ml-3 font-medium">%40</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="col-12 xl:col-6">
+                <div className="card">
+                    <h5>Sales Overview</h5>
+                    <Chart type="line" data={lineData} options={lineOptions} />
+                </div>
+
+                <div className="card">
+                    <div className="flex align-items-center justify-content-between mb-4">
+                        <h5>Notifications</h5>
+                        <div>
+                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu2.current?.toggle(event)} />
+                            <Menu
+                                ref={menu2}
+                                popup
+                                model={[
+                                    { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+                                    { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+                                ]}
+                            />
+                        </div>
+                    </div>
+
+                    <span className="block text-600 font-medium mb-3">TODAY</span>
+                    <ul className="p-0 mx-0 mt-0 mb-4 list-none">
+                        <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+                            <div className="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                <i className="pi pi-dollar text-xl text-blue-500" />
+                            </div>
+                            <span className="text-900 line-height-3">
+                                Richard Jones
+                                <span className="text-700">
+                                    {' '}
+                                    has purchased a blue t-shirt for <span className="text-blue-500">79$</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li className="flex align-items-center py-2">
+                            <div className="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+                                <i className="pi pi-download text-xl text-orange-500" />
+                            </div>
+                            <span className="text-700 line-height-3">
+                                Your request for withdrawal of <span className="text-blue-500 font-medium">2500$</span> has been initiated.
+                            </span>
+                        </li>
+                    </ul>
+
+                    <span className="block text-600 font-medium mb-3">YESTERDAY</span>
+                    <ul className="p-0 m-0 list-none">
+                        <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+                            <div className="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                <i className="pi pi-dollar text-xl text-blue-500" />
+                            </div>
+                            <span className="text-900 line-height-3">
+                                Keyser Wick
+                                <span className="text-700">
+                                    {' '}
+                                    has purchased a black jacket for <span className="text-blue-500">59$</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+                            <div className="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
+                                <i className="pi pi-question text-xl text-pink-500" />
+                            </div>
+                            <span className="text-900 line-height-3">
+                                Jane Davis
+                                <span className="text-700"> has posted a new questions about your product.</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div
+                    className="px-4 py-5 shadow-2 flex flex-column md:flex-row md:align-items-center justify-content-between mb-3"
+                    style={{
+                        borderRadius: '1rem',
+                        background: 'linear-gradient(0deg, rgba(0, 123, 255, 0.5), rgba(0, 123, 255, 0.5)), linear-gradient(92.54deg, #1C80CF 47.88%, #FFFFFF 100.01%)'
+                    }}
+                >
+                    <div>
+                        <div className="text-blue-100 font-medium text-xl mt-2 mb-3">TAKE THE NEXT STEP</div>
+                        <div className="text-white font-medium text-5xl">Try PrimeBlocks</div>
+                    </div>
+                    <div className="mt-4 mr-auto md:mt-0 md:mr-0">
+                        <Link href="https://blocks.primereact.org" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                            Get Started
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
 };
 
-export default Landing;
+export default Dashboard;
