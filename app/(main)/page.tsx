@@ -23,6 +23,7 @@ import {Slider} from "primereact/slider";
 import {Rating} from "primereact/rating";
 import {ColorPicker} from "primereact/colorpicker";
 import {Knob} from "primereact/knob";
+import UserInfo from "@/app/(main)/uikit/userinfo/page";
 
 const lineData: ChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -212,6 +213,8 @@ const Dashboard = () => {
                 </div>
             </div>
 
+
+            <UserInfo></UserInfo>
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Recent Sales</h5>
