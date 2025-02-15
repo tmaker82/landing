@@ -1,4 +1,5 @@
 import { Demo } from '@/types';
+import axios from 'axios';
 
 export const ProductService = {
     getProductsSmall() {
@@ -17,5 +18,18 @@ export const ProductService = {
         return fetch('/demo/data/products-orders-small.json', { headers: { 'Cache-Control': 'no-cache' } })
             .then((res) => res.json())
             .then((d) => d.data as Demo.Product[]);
-    }
+    },
+
+    getUsers() {
+        console.log('getUsers axios');
+       return axios.get('http://localhost:4000/api/users')
+            .then(response => {
+                // Access the response data
+                const responseData = response.data;
+                // Process the response data here
+            })
+            .catch(error => {
+                // Handle any errors
+            });
+    },
 };
