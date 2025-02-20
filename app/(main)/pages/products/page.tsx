@@ -14,9 +14,15 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../../demo/service/ProductService';
 import { Demo } from '@/types';
-import axios from "axios";
+import {Dropdown} from "primereact/dropdown";
+
+interface InputValue {
+    name: string;
+    code: string;
+}
+
+let dropdownValues: InputValue[] = [];
 
 /* @todo Used 'as any' for types here. Will fix in next version due to onSelectionChange event type issue. */
 const Products = () => {
@@ -33,6 +39,7 @@ const Products = () => {
     };
 
     const [products, setProducts] = useState(null);
+    const [productsCategory, setProductsCategory] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -42,12 +49,26 @@ const Products = () => {
     const [globalFilter, setGlobalFilter] = useState('');
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
+    const [dropdownValue, setDropdownValue] = useState(null);
+    const [dropdownValues, setDropdownValues] = useState(null);
 
     useEffect(() => {
         fetch('http://localhost:4000/api/products')
             .then((res) => res.json())
             .then((result) => setProducts(result.data));
     }, []);
+
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/productscategory')
+            .then((res) => res.json())
+            .then((result) => {
+                setDropdownValues(result)
+                console.log('setDropdownValues', result)
+            });
+    }, []);
+
+
 
     const formatCurrency = (value: number) => {
         return value.toLocaleString('en-US', {
@@ -86,18 +107,30 @@ const Products = () => {
                 const id = product.id;
                 /*const name = product.name;
                 const description = product.description;*/
-                let params = {
-                    "id": "1001"
-                };
-                console.log("params", params)
-                fetch("http://localhost:4000/api/updateproductbyid/" + id, {
-                    method: "POST",
-                    body: JSON.stringify(
-                        params
-                    )
-
-                })
-                .then(response => response.json())
+                let data = {
+                    name: product.name,
+                    description: product.description
+                }
+                if (product.name && product.description) {
+                    fetch(`http://localhost:4000/api/updateproductbyid/` + id, {
+                        method: "POST",
+                        body: JSON.stringify({
+                           data
+                        })
+                    })
+                        .then(response => response.json())
+                        /*.then(data => {
+                            //setUsers([...users, data])
+                            //setNewName("")
+                            //setNewEmail("")
+                            //setNewWebsite("")
+                            /!*AppToaster.show({
+                                message: "User added successfully",
+                                intent: "success",
+                                timeout: 3000,
+                            })*!/
+                        })*/
+                }
 
                 _products[index] = _product;
                 toast.current?.show({
@@ -280,7 +313,8 @@ const Products = () => {
         return (
             <>
                 <span className="p-column-title">Price</span>
-                {formatCurrency(rowData.price as number)}
+                {/*{formatCurrency(rowData.price as number)}*/}
+                {rowData.price}
             </>
         );
     };
@@ -333,8 +367,8 @@ const Products = () => {
 
     const productDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" text onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" text onClick={saveProduct} />
+            <Button label="Отменить" icon="pi pi-times" text onClick={hideDialog} />
+            <Button label="Сохранить" icon="pi pi-check" text onClick={saveProduct} />
         </>
     );
     const deleteProductDialogFooter = (
@@ -409,25 +443,16 @@ const Products = () => {
                         </div>
 
                         <div className="field">
-                            <label className="mb-3">Category</label>
-                            <div className="formgrid grid">
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                                    <label htmlFor="category1">Accessories</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                                    <label htmlFor="category2">Clothing</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                                    <label htmlFor="category3">Electronics</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                                    <label htmlFor="category4">Fitness</label>
-                                </div>
-                            </div>
+                            <label className="mb-3">Категория</label>
+                            {console.log(product.category)}
+                            <Dropdown
+                                value={product.category}
+                                onChange={(e) => setDropdownValue(e.value)}
+                                options={dropdownValues}
+                                optionLabel="name"
+                                optionValue="code"
+                                placeholder="Выберите категория товара"
+                            />
                         </div>
 
                         <div className="formgrid grid">
