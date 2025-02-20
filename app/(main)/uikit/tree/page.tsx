@@ -17,6 +17,15 @@ const TreeDemo = () => {
         NodeService.getFilesystem().then((files) => setFiles2(files));
     }, []);
 
+    useEffect(() => {
+        fetch('http://localhost:4000/api/budgets')
+            .then((res) => res.json())
+            .then((result) => setFiles(result.data));
+    }, []);
+
+
+
+
     return (
         <div className="grid">
             <div className="col-12">
@@ -28,7 +37,7 @@ const TreeDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>TreeTable</h5>
-                    <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2} onSelectionChange={(e) => setSelectedFileKeys2(e.value)}>
+                    <TreeTable value={files} selectionMode="checkbox" selectionKeys={selectedFileKeys2} onSelectionChange={(e) => setSelectedFileKeys2(e.value)}>
                         <Column field="name" header="Name" expander />
                         <Column field="size" header="Size" />
                         <Column field="type" header="Type" />

@@ -1,6 +1,6 @@
 'use client';
 import { CustomerService } from '../../../../demo/service/CustomerService';
-import { ProductService } from '../../../../demo/service/ProductService';
+/*import { ProductService } from '../../../../demo/service/ProductService';*/
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -76,7 +76,7 @@ const TableDemo = () => {
         setLoading2(true);
 
         CustomerService.getCustomersLarge().then((data) => {
-            setCustomers1(getCustomers(data));
+            /*setCustomers1(getCustomers(data));*/
             setLoading1(false);
         });
         CustomerService.getCustomersLarge().then((data) => {
@@ -84,18 +84,32 @@ const TableDemo = () => {
             setLoading2(false);
         });
         CustomerService.getCustomersMedium().then((data) => setCustomers3(data));
-        ProductService.getProductsWithOrdersSmall().then((data) => setProducts(data));
+        /*ProductService.getProductsWithOrdersSmall().then((data) => setProducts(data));*/
 
         initFilters1();
+    }, []);
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/products')
+            .then((res) => res.json())
+            .then((result) => setProducts(result.data));
     }, []);
 
     const balanceTemplate = (rowData: Demo.Customer) => {
         return (
             <div>
-                <span className="text-bold">{formatCurrency(rowData.balance as number)}</span>
+                {/*<span className="text-bold">{formatCurrency(rowData.balance as number)}</span>*/}
             </div>
         );
     };
+
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/budgets')
+            .then((res) => res.json())
+            .then((result) => setCustomers1(result.data));
+    }, []);
+
 
     const getCustomers = (data: Demo.Customer[]) => {
         return [...(data || [])].map((d) => {
@@ -105,18 +119,18 @@ const TableDemo = () => {
     };
 
     const formatDate = (value: Date) => {
-        return value.toLocaleDateString('en-US', {
+        /*return value.toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'
-        });
+        });*/
     };
 
     const formatCurrency = (value: number) => {
-        return value.toLocaleString('en-US', {
+        /*return value.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD'
-        });
+        });*/
     };
 
     const initFilters1 = () => {
@@ -152,8 +166,10 @@ const TableDemo = () => {
     const countryBodyTemplate = (rowData: Demo.Customer) => {
         return (
             <React.Fragment>
+{/*
                 <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.country.code}`} width={30} />
                 <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.country.name}</span>
+*/}
             </React.Fragment>
         );
     };
@@ -170,14 +186,14 @@ const TableDemo = () => {
         const representative = rowData.representative;
         return (
             <React.Fragment>
-                <img
+               {/* <img
                     alt={representative.name}
                     src={`/demo/images/avatar/${representative.image}`}
                     onError={(e) => ((e.target as HTMLImageElement).src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')}
                     width={32}
                     style={{ verticalAlign: 'middle' }}
                 />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{representative.name}</span>
+                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{representative.name}</span>*/}
             </React.Fragment>
         );
     };
@@ -209,7 +225,7 @@ const TableDemo = () => {
     };
 
     const balanceBodyTemplate = (rowData: Demo.Customer) => {
-        return formatCurrency(rowData.balance as number);
+        return formatCurrency(rowData.amount as number);
     };
 
     const balanceFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
@@ -217,7 +233,7 @@ const TableDemo = () => {
     };
 
     const statusBodyTemplate = (rowData: Demo.Customer) => {
-        return <span className={`customer-badge status-${rowData.status}`}>{rowData.status}</span>;
+        return <span className={`customer-badge status-${rowData.amount}`}>{rowData.amount}</span>;
     };
 
     const statusFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
@@ -391,7 +407,7 @@ const TableDemo = () => {
                             filterElement={representativeFilterTemplate}
                         />
                         <Column header="Date" filterField="date" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate} filter filterElement={dateFilterTemplate} />
-                        <Column header="Balance" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
+                        <Column header="amount" filterField="amount" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
                         <Column field="status" header="Status" filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusFilterTemplate} />
                         <Column field="activity" header="Activity" showFilterMatchModes={false} style={{ minWidth: '12rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} />
                         <Column field="verified" header="Verified" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedFilterTemplate} />

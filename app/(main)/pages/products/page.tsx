@@ -16,6 +16,7 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../../demo/service/ProductService';
 import { Demo } from '@/types';
+import axios from "axios";
 
 /* @todo Used 'as any' for types here. Will fix in next version due to onSelectionChange event type issue. */
 const Products = () => {
@@ -82,6 +83,21 @@ const Products = () => {
             let _product = { ...product };
             if (product.id) {
                 const index = findIndexById(product.id);
+                const id = product.id;
+                /*const name = product.name;
+                const description = product.description;*/
+                let params = {
+                    "id": "1001"
+                };
+                console.log("params", params)
+                fetch("http://localhost:4000/api/updateproductbyid/" + id, {
+                    method: "POST",
+                    body: JSON.stringify(
+                        params
+                    )
+
+                })
+                .then(response => response.json())
 
                 _products[index] = _product;
                 toast.current?.show({
@@ -90,6 +106,7 @@ const Products = () => {
                     detail: 'Product Updated',
                     life: 3000
                 });
+
             } else {
                 _product.id = createId();
                 _product.image = 'product-placeholder.svg';
@@ -105,6 +122,8 @@ const Products = () => {
             setProducts(_products as any);
             setProductDialog(false);
             setProduct(emptyProduct);
+
+
         }
     };
 
@@ -119,6 +138,16 @@ const Products = () => {
     };
 
     const deleteProduct = () => {
+        console.log(product.id)
+
+        if (product.id) {
+            fetch("http://localhost:4000/api/deleteproductbyid/" + product.id, {
+                method: "POST",
+            })
+            .then(response => response.json())
+                .then(() => {
+                })
+        }
         let _products = (products as any)?.filter((val: any) => val.id !== product.id);
         setProducts(_products);
         setDeleteProductDialog(false);
@@ -129,6 +158,11 @@ const Products = () => {
             detail: 'Product Deleted',
             life: 3000
         });
+
+
+
+
+
     };
 
     const findIndexById = (id: string) => {
@@ -199,8 +233,8 @@ const Products = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !(selectedProducts as any).length} />
+                    <Button label="Добавить" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
+                    <Button label="Удалить" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !(selectedProducts as any).length} />
                 </div>
             </React.Fragment>
         );
@@ -215,14 +249,14 @@ const Products = () => {
         );
     };
 
-    const codeBodyTemplate = (rowData: Demo.Product) => {
+/*    const codeBodyTemplate = (rowData: Demo.Product) => {
         return (
             <>
                 <span className="p-column-title">Code</span>
                 {rowData.code}
             </>
         );
-    };
+    };*/
 
     const nameBodyTemplate = (rowData: Demo.Product) => {
         return (
@@ -292,7 +326,7 @@ const Products = () => {
             <h5 className="m-0">Каталог товаров</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Поиск..." />
             </span>
         </div>
     );
@@ -305,14 +339,14 @@ const Products = () => {
     );
     const deleteProductDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteProduct} />
+            <Button label="Нет" icon="pi pi-times" text onClick={hideDeleteProductDialog} />
+            <Button label="Да" icon="pi pi-check" text onClick={deleteProduct} />
         </>
     );
     const deleteProductsDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteSelectedProducts} />
+            <Button label="Нет" icon="pi pi-times" text onClick={hideDeleteProductsDialog} />
+            <Button label="Да" icon="pi pi-check" text onClick={deleteSelectedProducts} />
         </>
     );
 
@@ -334,24 +368,26 @@ const Products = () => {
                         rowsPerPageOptions={[5, 10, 25]}
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                        currentPageReportTemplate="Записи с {first} по {last} из {totalRecords} товаров"
                         globalFilter={globalFilter}
                         emptyMessage="No products found."
                         header={header}
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
+{/*
                         <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column header="Image" body={imageBodyTemplate}></Column>
-                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                        <Column field="category" header="Category" sortable body={categoryBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable></Column>
-                        <Column field="status" header="Status" body={statusBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>
+*/}
+                        <Column field="name" header="Наименование" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column header="Изображение" body={imageBodyTemplate}></Column>
+                        <Column field="price" header="Цена" body={priceBodyTemplate} sortable></Column>
+                        <Column field="category" header="Категория" sortable body={categoryBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="rating" header="Рейтинг" body={ratingBodyTemplate} sortable></Column>
+                        <Column field="status" header="Статус" body={statusBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Карточка товара" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         {product.image && <img src={`/demo/images/product/${product.image}`} alt={product.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <div className="field">
                             <label htmlFor="name">Name</label>
@@ -406,21 +442,21 @@ const Products = () => {
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Подтвердите ваши действия" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {product && (
                                 <span>
-                                    Are you sure you want to delete <b>{product.name}</b>?
+                                    Вы действительно хотите удалить <b>{product.name}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Подтвердите ваши действия" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete the selected products?</span>}
+                            {product && <span>Вы действительно хотите удалить выбранные товары?</span>}
                         </div>
                     </Dialog>
                 </div>

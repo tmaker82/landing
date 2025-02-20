@@ -40,7 +40,6 @@ const UserInfo = () => {
                 setFirstName(result.firstname)
                 setLastName(result.lastname)
                 setEmail(result.email)
-                console.log(result.firstname)
             });
 
     }, []);

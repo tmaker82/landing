@@ -7,7 +7,7 @@ import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { Rating } from 'primereact/rating';
 import { PickList } from 'primereact/picklist';
 import { OrderList } from 'primereact/orderlist';
-import { ProductService } from '../../../../demo/service/ProductService';
+/*import { ProductService } from '../../../../demo/service/ProductService';*/
 import { InputText } from 'primereact/inputtext';
 import type { Demo } from '@/types';
 
@@ -38,7 +38,7 @@ const ListDemo = () => {
         { label: 'Price Low to High', value: 'price' }
     ];
 
-    useEffect(() => {
+/*    useEffect(() => {
         ProductService.getProducts().then((data) => setDataViewValue(data));
         setGlobalFilterValue('');
     }, []);
@@ -46,6 +46,12 @@ const ListDemo = () => {
     useEffect(() => {
         ProductService.getProducts().then((data) => setDataViewValue(data));
         setGlobalFilterValue('');
+    }, []);*/
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/products')
+            .then((res) => res.json())
+            .then((result) => setDataViewValue(result.data));
     }, []);
 
     const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {

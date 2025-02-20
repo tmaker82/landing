@@ -15,10 +15,10 @@ import {StyleClass} from "primereact/styleclass";
 import {classNames} from "primereact/utils";
 import {Ripple} from "primereact/ripple";
 import {Button} from "primereact/button";
-const menuRef = useRef<HTMLElement | null>(null);
+/*const menuRef = useRef<HTMLElement | null>(null);*/
 
 const Header = () => {
-    const [isHidden, setIsHidden] = useState(false);
+    /*const [isHidden, setIsHidden] = useState(false);
     const toggleMenuItemClick = () => {
         setIsHidden((prevState) => !prevState);
     };
@@ -33,7 +33,7 @@ const Header = () => {
             <div
                 className="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static">
                 <Link href="/" className="flex align-items-center">
-                    {/*<img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Sakai Logo" height="50" className="mr-0 lg:mr-2" />*/}
+                    {/!*<img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Sakai Logo" height="50" className="mr-0 lg:mr-2" />*!/}
                     <span className="text-900 font-medium text-2xl line-height-3 mr-8">TMAKER</span>
                 </Link>
                 <StyleClass nodeRef={menuRef as NodeRef} selector="@next" enterClassName="hidden"
@@ -90,7 +90,7 @@ const Header = () => {
                 </div>
             </div>
         </>
-    )
+    )*/
 }
 
 export default Header;
