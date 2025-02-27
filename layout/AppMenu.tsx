@@ -18,7 +18,8 @@ const AppMenu = () => {
         {
             label: 'UI Components',
             items: [
-                { label: 'Товары', icon: 'pi pi-fw pi-id-card', to: '/pages/products' }
+                { label: 'Товары', icon: 'pi pi-fw pi-id-card', to: '/pages/products' },
+                { label: 'Контакты', icon: 'pi pi-fw pi-id-card', to: '/pages/contacts' }
             ]
         },
         {

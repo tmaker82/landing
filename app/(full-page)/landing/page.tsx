@@ -10,6 +10,8 @@ import { Divider } from 'primereact/divider';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { NodeRef } from '@/types';
 import { classNames } from 'primereact/utils';
+import TreeDemo from "@/app/(main)/uikit/tree/page";
+import ListDemo from "@/app/(main)/uikit/list/page";
 
 const LandingPage = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -398,6 +400,8 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </div>
+
+                <ListDemo></ListDemo>
 
                 <div id="pricing" className="py-4 px-4 lg:px-8 my-2 md:my-4">
                     <div className="text-center">

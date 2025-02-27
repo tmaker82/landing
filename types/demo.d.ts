@@ -133,6 +133,22 @@ declare namespace Demo {
         [key: string]: string | string[] | number | boolean | undefined | ProductOrder[] | InventoryStatus;
     };
 
+    type Contact = {
+        id?: string;
+        firstName: string;
+        secondName: string;
+        lastName: string;
+        description: string;
+        photo?: string;
+        price?: number;
+        category?: string;
+        quantity?: number;
+        inventoryStatus?: InventoryStatus;
+        rating?: number;
+        orders?: ProductOrder[];
+        [key: string]: string | string[] | number | boolean | undefined | ProductOrder[] | InventoryStatus;
+    };
+
     type ProductOrder = {
         id?: string;
         productCode?: string;
