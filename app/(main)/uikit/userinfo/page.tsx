@@ -34,7 +34,7 @@ const UserInfo = () => {
 
 
     useEffect(() => {
-        const userData =  fetch('http://localhost:4000/api/users/tmaker')
+        const userData =  fetch('http://192.168.0.223:4000/api/users/tmaker')
             .then((res) => res.json())
             .then((result) => {
                 setFirstName(result.firstname)

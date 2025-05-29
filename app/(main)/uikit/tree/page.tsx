@@ -18,7 +18,7 @@ const TreeDemo = () => {
     }, []);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/budgets')
+        fetch('http://192.168.0.223:4000/api/budgets')
             .then((res) => res.json())
             .then((result) => setFiles(result.data));
     }, []);

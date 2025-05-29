@@ -90,7 +90,7 @@ const TableDemo = () => {
     }, []);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/products')
+        fetch('http://192.168.0.223:4000/api/products')
             .then((res) => res.json())
             .then((result) => setProducts(result.data));
     }, []);
@@ -105,7 +105,7 @@ const TableDemo = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/budgets')
+        fetch('http://192.168.0.223:4000/api/budgets')
             .then((res) => res.json())
             .then((result) => setCustomers1(result.data));
     }, []);
@@ -298,7 +298,7 @@ const TableDemo = () => {
     };
 
     const statusOrderBodyTemplate = (rowData: Demo.Customer) => {
-        return <span className={`order-badge order-${rowData.status?.toLowerCase()}`}>{rowData.status}</span>;
+        return <span className={`order-badge order-${rowData.status}`}>{rowData.status}</span>;
     };
 
     const searchBodyTemplate = () => {
@@ -329,9 +329,9 @@ const TableDemo = () => {
                     <Column field="id" header="Id" sortable></Column>
                     <Column field="customer" header="Customer" sortable></Column>
                     <Column field="date" header="Date" sortable></Column>
-                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable></Column>
+                  {/*  <Column field="amount" header="Amount" body={amountBodyTemplate} sortable></Column>
                     <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>
-                    <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>
+                    <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>*/}
                 </DataTable>
             </div>
         );
@@ -377,7 +377,7 @@ const TableDemo = () => {
 
     return (
         <div className="grid">
-            <div className="col-12">
+            {/*<div className="col-12">
                 <div className="card">
                     <h5>Filter Menu</h5>
                     <DataTable
@@ -472,7 +472,7 @@ const TableDemo = () => {
                         <Column field="date" header="Date" style={{ minWidth: '200px' }}></Column>
                     </DataTable>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 };

@@ -58,7 +58,7 @@ const OverlayDemo = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/products')
+        fetch('http://192.168.0.223:4000/api/products')
             .then((res) => res.json())
             .then((result) => setProducts(result.data));
     }, []);

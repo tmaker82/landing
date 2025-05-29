@@ -26,7 +26,7 @@ let dropdownValues: InputValue[] = [];
 
 /* @todo Used 'as any' for types here. Will fix in next version due to onSelectionChange event type issue. */
 const Contacts = () => {
-    let emptyProduct: Demo.Contact = {
+    /*let emptyProduct: Demo.Contact = {
         id: '',
         name: '',
         photo: '',
@@ -37,8 +37,8 @@ const Contacts = () => {
         rating: 0,
         inventoryStatus: 'INSTOCK'
     };
-
-    const [contacts, setContacts] = useState(null);
+*/
+    /*const [contacts, setContacts] = useState(null);
     const [productsCategory, setContactsCategory] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
@@ -53,7 +53,7 @@ const Contacts = () => {
     const [dropdownValues, setDropdownValues] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/contacts')
+        fetch('http://192.168.0.223:4000/api/contacts')
             .then((res) => res.json())
             .then((result) => setContacts(result.data));
     }, []);
@@ -94,21 +94,21 @@ const Contacts = () => {
             if (Contact.id) {
                 const index = findIndexById(Contact.id);
                 const id = Contact.id;
-                /*const name = Contact.name;
-                const description = Contact.description;*/
+                /!*const name = Contact.name;
+                const description = Contact.description;*!/
                 let data = {
                     name: Contact.name,
                     description: Contact.description
                 }
                 if (Contact.name && Contact.description) {
-                    fetch(`http://localhost:4000/api/updateproductbyid/` + id, {
+                    fetch(`http://192.168.0.223:4000/api/updateproductbyid/` + id, {
                         method: "POST",
                         body: JSON.stringify({
                            data
                         })
                     })
                         .then(response => response.json())
-                        /*.then(data => {
+                        /!*.then(data => {
                             //setUsers([...users, data])
                             //setNewName("")
                             //setNewEmail("")
@@ -118,7 +118,7 @@ const Contacts = () => {
                                 intent: "success",
                                 timeout: 3000,
                             })*!/
-                        })*/
+                        })*!/
                 }
 
                 _contacts[index] = _product;
@@ -163,7 +163,7 @@ const Contacts = () => {
         console.log(Contact.id)
 
         if (Contact.id) {
-            fetch("http://localhost:4000/api/deleteproductbyid/" + Contact.id, {
+            fetch("http://192.168.0.223:4000/api/deleteproductbyid/" + Contact.id, {
                 method: "POST",
             })
             .then(response => response.json())
@@ -265,20 +265,20 @@ const Contacts = () => {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} chooseLabel="Import" className="mr-2 inline-block" />
+                <FileUpload mode="basic" accept="image/!*" maxFileSize={1000000} chooseLabel="Import" className="mr-2 inline-block" />
                 <Button label="Export" icon="pi pi-upload" severity="help" onClick={exportCSV} />
             </React.Fragment>
         );
     };
 
-/*    const codeBodyTemplate = (rowData: Demo.Contact) => {
+/!*    const codeBodyTemplate = (rowData: Demo.Contact) => {
         return (
             <>
                 <span className="p-column-title">Code</span>
                 {rowData.code}
             </>
         );
-    };*/
+    };*!/
 
     const nameBodyTemplate = (rowData: Demo.Contact) => {
         return (
@@ -302,7 +302,7 @@ const Contacts = () => {
         return (
             <>
                 <span className="p-column-title">Price</span>
-                {/*{formatCurrency(rowData.price as number)}*/}
+                {/!*{formatCurrency(rowData.price as number)}*!/}
                 {rowData.price}
             </>
         );
@@ -372,10 +372,10 @@ const Contacts = () => {
             <Button label="Да" icon="pi pi-check" text onClick={deleteSelectedProducts} />
         </>
     );
-
+*/
     return (
         <div className="grid crud-demo">
-            <div className="col-12">
+            {/*<div className="col-12">
                 <div className="card">
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
@@ -398,15 +398,15 @@ const Contacts = () => {
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
-{/*
+
                         <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-*/}
+
                         <Column field="name" header="Фамилия" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column header="Изображение" body={imageBodyTemplate}></Column>
                         <Column field="birthdate" header="Дата рождения"  sortable></Column>
-                        {/*<Column field="category" header="Категория" sortable body={categoryBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>*/}
+                        <Column field="category" header="Категория" sortable body={categoryBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="email" header="email" sortable></Column>
-                        {/*<Column field="status" header="Статус" body={statusBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>*/}
+                        <Column field="status" header="Статус" body={statusBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
@@ -530,7 +530,7 @@ const Contacts = () => {
                         </div>
                     </Dialog>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 };

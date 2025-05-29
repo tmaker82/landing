@@ -53,14 +53,14 @@ const Products = () => {
     const [dropdownValues, setDropdownValues] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/products')
+        fetch('http://192.168.0.223:4000/api/products')
             .then((res) => res.json())
             .then((result) => setProducts(result.data));
     }, []);
 
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/productscategory')
+        fetch('http://192.168.0.223:4000/api/productscategory')
             .then((res) => res.json())
             .then((result) => {
                 setDropdownValues(result)
@@ -112,7 +112,7 @@ const Products = () => {
                     description: product.description
                 }
                 if (product.name && product.description) {
-                    fetch(`http://localhost:4000/api/updateproductbyid/` + id, {
+                    fetch(`http://192.168.0.223:4000/api/updateproductbyid/` + id, {
                         method: "POST",
                         body: JSON.stringify({
                            data
@@ -174,7 +174,7 @@ const Products = () => {
         console.log(product.id)
 
         if (product.id) {
-            fetch("http://localhost:4000/api/deleteproductbyid/" + product.id, {
+            fetch("http://192.168.0.223:4000/api/deleteproductbyid/" + product.id, {
                 method: "POST",
             })
             .then(response => response.json())
@@ -341,7 +341,7 @@ const Products = () => {
         return (
             <>
                 <span className="p-column-title">Status</span>
-                <span className={`product-badge status-${rowData.status?.toLowerCase()}`}>{rowData.status}</span>
+                <span>rowData.status</span>
             </>
         );
     };
@@ -444,11 +444,10 @@ const Products = () => {
 
                         <div className="field">
                             <label className="mb-3">Категория</label>
-                            {console.log(product.category)}
                             <Dropdown
                                 value={product.category}
                                 onChange={(e) => setDropdownValue(e.value)}
-                                options={dropdownValues}
+                                /*options={dropdownValues}*/
                                 optionLabel="name"
                                 optionValue="code"
                                 placeholder="Выберите категория товара"

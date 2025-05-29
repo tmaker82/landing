@@ -22,7 +22,7 @@ export const ProductService = {
 
     getUsers() {
         console.log('getUsers axios');
-       return axios.get('http://localhost:4000/api/users')
+       return axios.get('http://192.168.0.223:4000/api/users')
             .then(response => {
                 // Access the response data
                 const responseData = response.data;

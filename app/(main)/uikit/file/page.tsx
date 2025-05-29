@@ -10,7 +10,7 @@ const FileDemo = () => {
     const onUpload = () => {
         const formdata = new FormData();
         let fileInput;
-        formdata.append("file", fileInput.files[0], "/Z:/NextCloud/Заметки/contacts_small — копия.txt");
+        /*formdata.append("file", fileInput.files[0], "/Z:/NextCloud/Заметки/contacts_small — копия.txt");*/
 
         const requestOptions = {
             method: "POST",
@@ -18,7 +18,7 @@ const FileDemo = () => {
             redirect: "follow"
         };
 
-        fetch("localhost:4000/api/upload", requestOptions)
+        fetch("localhost:4000/api/upload" /*requestOptions*/)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
@@ -37,10 +37,10 @@ const FileDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Advanced</h5>
-                    <FileUpload name="file[]" url="http://localhost:4000/api/upload" onUpload={onUpload} accept="csv/*" maxFileSize={1000000} />
+                    <FileUpload name="file[]" url="http://192.168.0.223:4000/api/upload" onUpload={onUpload} accept="csv/*" maxFileSize={1000000} />
 
                     <h5>Basic</h5>
-                    <FileUpload mode="basic" name="file[]" url="http://localhost:4000/api/upload" accept="csv/*" maxFileSize={1000000} onUpload={onUpload}
+                    <FileUpload mode="basic" name="file[]" url="http://192.168.0.223:4000/api/upload" accept="csv/*" maxFileSize={1000000} onUpload={onUpload}
                      />
                 </div>
             </div>
